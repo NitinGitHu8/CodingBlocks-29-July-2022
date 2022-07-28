@@ -1,0 +1,59 @@
+import java.util.PriorityQueue;
+import java.util.Scanner;
+import java.util.HashSet;
+class Pair implements Comparable<Pair>{
+	int sadness;
+	int ind;
+	Pair(int sadness,int ind){
+		this.sadness=sadness;
+		this.ind=ind;
+	}
+	public int compareTo(Pair p){
+		return p.sadness-this.sadness;
+	}
+	
+}
+public class Main {
+	public static void main(String args[]) {
+		// Your code goes here
+		PriorityQueue<Pair>pq=new PriorityQueue<Pair>();
+		Scanner s=new Scanner(System.in);
+		int t;
+		t=s.nextInt();
+		while(t-- >0){
+		int n,d;
+		n=s.nextInt();
+		d=s.nextInt();
+		int days[]=new int[1000];
+		int lectures[]=new int[1000];
+		int sadness[]=new int[1000];
+		for(int i=1;i<=n;i++){
+			days[i]=s.nextInt();
+			lectures[i]=s.nextInt();
+			sadness[i]=s.nextInt();
+			pq.add(new Pair(sadness[i],i));
+		}
+		HashSet<Integer>h=new HashSet<Integer>();
+		for(int i=1;i<=d;i++){
+			h.add(i);
+		}
+		int lecturesTaken[]=new int[1000];
+		for(int i=1;i<=n;i++){
+			int startingDay=days[i];
+			int endingDay=startingDay+lectures[i]-1;
+			for(int j=startingDay;j<=endingDay;j++){
+				if(h.contains(j)){
+					lecturesTaken[i]++;
+					h.remove(j);
+				}
+			}
+			
+		}
+		int res=0;
+		for(int i=1;i<=n;i++){
+			res+=(lectures[i]-lecturesTaken[i])*sadness[i];
+		}
+		System.out.println(res);
+		}
+	}
+}
